@@ -7,6 +7,7 @@ package com.edu.idat.amorecaffe.entity;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -33,8 +34,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "det_pedidos")
-@Table(name = "det_pedidos")
+@Table(name = "det_pedidos",indexes = {
+    @Index(name = "cabventa", columnList = "cabventa_id",unique = false),
+
+@Index(name = "producto", columnList = "producto_id",unique = false)
+})
 @Data
+
 public class DetallePedidoEntity implements Serializable {
     @EmbeddedId
     DetallePedidoId id;

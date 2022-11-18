@@ -34,8 +34,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "cab_pedidos")
-@Table(name = "cab_pedidos", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "id" }) })
+@Table(name = "cab_pedidos" )
 @Data
 public class CabeceraPedidoEntity implements Serializable {
     private static final long serialVersionUID = 1L;

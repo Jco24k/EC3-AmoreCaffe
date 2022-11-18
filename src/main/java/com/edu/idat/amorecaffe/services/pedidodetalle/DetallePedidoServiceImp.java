@@ -83,13 +83,10 @@ public class DetallePedidoServiceImp implements DetallePedidoService {
         List<DetallePedidoEntity> DetallePedido = DetallePedidoRepository.SelectDetVenta(id);
         if (DetallePedido.isEmpty()) {
             throw new ClassNotFoundException(
-                    String.format("CabeceraPedido with id '%s' not found", id));
+                    String.format("DetallePedido with id '%s' not found", id));
         }
-        cabPedidoRepository.findById(id)
-                .orElseThrow(() -> new ClassNotFoundException(
-                        String.format("CabeceraPedido with id '%s' not found", id)));
         DetallePedidoRepository.DeleteDetVenta(id);
-        return;
+        return; 
     }
 
     @Override
@@ -108,8 +105,9 @@ public class DetallePedidoServiceImp implements DetallePedidoService {
         double precio = proFind.getPrecio();
         int cantidad = DetallePedidoEntityDto.getCantidad();
         double total =  precio * Double.valueOf(cantidad); 
-        return DetallePedidoRepository.UpdateDetalleVenta(codVenta, codProducto,
+        DetallePedidoRepository.UpdateDetalleVenta(codVenta, codProducto,
         cantidad, precio, total);
+        return this.findOne(cabventa, codProducto);
     }
 
     // private void verificar(String dni){

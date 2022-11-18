@@ -27,13 +27,14 @@ public class CargoEntity implements Serializable {
     @Id
     private String id;
     @Column(name = "nombre", nullable = false,unique = true)
-    @NotNull(message = "name must not be null")
-    @Size(min = 1)
+    @NotNull(message = "name must not be null")//VALIDACIONES
+    @Size(min = 1)//VALIDACIONES
     private String nombre;
     @Column(name = "slug", nullable = false,unique = true)
     private String slug;
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
+    //ANTES DE REGISTRO
     @PrePersist
     public void prePersist() {
         id = UUID.randomUUID().toString();
