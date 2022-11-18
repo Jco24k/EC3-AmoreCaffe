@@ -35,6 +35,7 @@ import java.io.Serializable;
         @UniqueConstraint(columnNames = { "dni", "id" }) })
 @Data
 public class ClienteEntity implements Serializable {
+    // Entidades de la tabla
     private static final long serialVersionUID = 1L;
     @Id
     private String id;
