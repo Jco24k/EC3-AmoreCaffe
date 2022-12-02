@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.producto;
+package com.edu.idat.amorecaffe.services;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -12,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
 import com.edu.idat.amorecaffe.entity.CategoriaEntity;
-import com.edu.idat.amorecaffe.entity.DetallePedidoEntity;
 import com.edu.idat.amorecaffe.entity.ProductoEntity;
 import com.edu.idat.amorecaffe.repository.DetallePedidoRepository;
 import com.edu.idat.amorecaffe.repository.ProductoRepository;
@@ -73,24 +69,19 @@ public class ProductoServiceImp implements ProductoService {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
-        ProductoEntity Producto = this.findOne(id);
-        List<DetallePedidoEntity> ListCabVenta = detPedidoRepository.findByProducto(Producto);
-        if (!ListCabVenta.isEmpty())
-            throw new Exception(String.format("Producto with id '%s' cannot be deleted because it is in use.", id));
-
-        ProductoRepository.delete(Producto);
-        return;
+        ProductoEntity producto = this.findOne(id);
+        producto.setEstado(false);
+        ProductoRepository.save(producto);
     }
 
     @Override
-    public ProductoEntity update(Map<Object, Object> ProductoEntityDto, String id) throws ClassNotFoundException {
+    public ProductoEntity update(ProductoEntity ProductoEntityDto, String id) throws ClassNotFoundException {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
         ProductoEntity prod = this.findOne(id);
         BeanUtils.copyProperties(ProductoEntityDto, prod);
-
-        // verificar(prod.getNombre(), prod.getSlug());
+        prod.setId(id);
         return ProductoRepository.save(prod);
     }
 

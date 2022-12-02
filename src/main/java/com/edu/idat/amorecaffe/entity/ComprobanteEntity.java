@@ -42,10 +42,21 @@ public class ComprobanteEntity implements Serializable {
     @JoinColumn(name = "id_venta",unique = true)
     private CabeceraPedidoEntity venta;
 
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
 
     @PrePersist
     public void prePersist() {
         id = UUID.randomUUID().toString();
+        if (estado == null) {
+            estado = true;
+        }
     }
+
+    public ComprobanteEntity(String tipo, String nroComprobante) {
+        this.tipo = tipo;
+        this.nroComprobante = nroComprobante;
+    }
+    
     
 }

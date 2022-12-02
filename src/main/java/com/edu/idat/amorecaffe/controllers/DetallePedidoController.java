@@ -2,7 +2,7 @@ package com.edu.idat.amorecaffe.controllers;
 
 
 import com.edu.idat.amorecaffe.entity.DetallePedidoEntity;
-import com.edu.idat.amorecaffe.services.pedidodetalle.DetallePedidoService;
+import com.edu.idat.amorecaffe.services.DetallePedidoService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

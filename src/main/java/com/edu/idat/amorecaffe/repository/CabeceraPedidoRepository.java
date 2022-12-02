@@ -23,4 +23,5 @@ public interface CabeceraPedidoRepository extends JpaRepository<CabeceraPedidoEn
 
     List<CabeceraPedidoEntity> findByEmpleado(EmpleadoEntity empleadoEntity);
 
+
 }

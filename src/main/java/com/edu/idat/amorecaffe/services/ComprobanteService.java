@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.comprobante;
+package com.edu.idat.amorecaffe.services;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public interface ComprobanteService {
 
     public ComprobanteEntity create(ComprobanteEntity comprobanteEntity)throws ClassNotFoundException ;
 
-    public ComprobanteEntity update( Map<Object, Object> comprobanteEntity,String id) throws ClassNotFoundException;
+    public ComprobanteEntity update( ComprobanteEntity comprobanteEntity,String id) throws ClassNotFoundException;
 
     public void delete(String id)throws ClassNotFoundException, IllegalArgumentException,Exception;
 }

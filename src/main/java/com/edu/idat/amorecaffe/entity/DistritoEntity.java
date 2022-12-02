@@ -32,6 +32,10 @@ public class DistritoEntity implements Serializable {
     private String nombre;
     @Column(name = "slug", nullable = false,unique = true)
     private String slug;
+    
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
+    
     @PrePersist
     public void prePersist() {
         id = UUID.randomUUID().toString();
@@ -40,6 +44,14 @@ public class DistritoEntity implements Serializable {
         }
         this.slug = this.slug.toLowerCase().replaceAll(" ", "_")
             .replaceAll("'","");
+        
+        if (estado == null) {
+            estado = true;
+        }
+    }
+
+    public DistritoEntity(String nombre) {
+        this.nombre = nombre;
     }
     
 }

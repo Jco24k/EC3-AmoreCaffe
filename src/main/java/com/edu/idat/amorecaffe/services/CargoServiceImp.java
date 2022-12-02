@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.cargo;
+package com.edu.idat.amorecaffe.services;
 
 // import java.lang.reflect.Field;
 import java.util.List;
@@ -69,12 +69,8 @@ public class CargoServiceImp implements CargoService {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
         CargoEntity cargo = this.findOne(id);
-        
-        List<EmpleadoEntity> ListEmpleado = empleadoRepository.findByCargo(cargo);
-        if(!ListEmpleado.isEmpty())
-            throw new Exception(String.format("Cargo with id '%s' cannot be deleted because it is in use.", id ));
-        cargoRepository.delete(cargo);
-        return;
+        cargo.setEstado(false);
+        cargoRepository.save(cargo);
     }
 
     @Override

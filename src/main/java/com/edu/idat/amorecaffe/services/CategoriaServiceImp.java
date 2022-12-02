@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.categoria;
+package com.edu.idat.amorecaffe.services;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -62,19 +62,17 @@ public class CategoriaServiceImp implements CategoriaService {
     }
 
     @Override
-    public void delete(String id) throws ClassNotFoundException, IllegalArgumentException,Exception {
-        if (!uuidValidate.matcher(id).matches()) throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
-        
+    public void delete(String id) throws ClassNotFoundException, IllegalArgumentException, Exception {
+        if (!uuidValidate.matcher(id).matches()) {
+            throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
+        }
         CategoriaEntity categoria = this.findOne(id);
-        List<ProductoEntity> ListProducto = productoRepository.findByCategoria(categoria);
-        if(!ListProducto.isEmpty())
-            throw new Exception(String.format("Categoria with id '%s' cannot be deleted because it is in use.", id ));
-        CategoriaRepository.delete(categoria);
-        return;
+        categoria.setEstado(false);
+        CategoriaRepository.save(categoria);
     }
 
     @Override
-    public CategoriaEntity update( Map<Object, Object>  categoriaEntityDto,String id) throws ClassNotFoundException{
+    public CategoriaEntity update(Map<Object, Object> categoriaEntityDto, String id) throws ClassNotFoundException {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
@@ -88,7 +86,7 @@ public class CategoriaServiceImp implements CategoriaService {
         return CategoriaRepository.save(cat);
     }
 
-    private void verificar(String nombre,String slug){
+    private void verificar(String nombre, String slug) {
         List<CategoriaEntity> categoryValidate = CategoriaRepository.findByNombreOrSlug(nombre, slug);
         if (!categoryValidate.isEmpty()) {
             throw new IllegalArgumentException(

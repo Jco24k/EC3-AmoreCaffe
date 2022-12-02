@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.pedidodetalle;
+package com.edu.idat.amorecaffe.services;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -85,8 +85,7 @@ public class DetallePedidoServiceImp implements DetallePedidoService {
             throw new ClassNotFoundException(
                     String.format("DetallePedido with id '%s' not found", id));
         }
-        DetallePedidoRepository.DeleteDetVenta(id);
-        return; 
+        DetallePedidoRepository.UpdateAndDeleteDetalleVenta(id,false);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class DetallePedidoServiceImp implements DetallePedidoService {
         int cantidad = DetallePedidoEntityDto.getCantidad();
         double total =  precio * Double.valueOf(cantidad); 
         DetallePedidoRepository.UpdateDetalleVenta(codVenta, codProducto,
-        cantidad, precio, total);
+        cantidad, precio, total,true);
         return this.findOne(cabventa, codProducto);
     }
 

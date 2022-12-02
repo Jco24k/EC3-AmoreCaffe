@@ -22,23 +22,35 @@ import com.edu.idat.amorecaffe.entity.ProductoEntity;
  * @author 51934
  */
 public interface DetallePedidoRepository extends JpaRepository<DetallePedidoEntity, DetallePedidoId> {
+
     List<DetallePedidoEntity> findByProducto(ProductoEntity productoEntity);
-    List<DetallePedidoEntity> findByCabventa( CabeceraPedidoEntity cabeceraPedidoEntity);
+
+    List<DetallePedidoEntity> findByCabventa(CabeceraPedidoEntity cabeceraPedidoEntity);
 
     @Transactional
     @Modifying
-    @Query(value = "delete from det_pedidos where cabventa_id = :cabventa_id",nativeQuery = true)
-	public void DeleteDetVenta(@Param("cabventa_id") String cabventa_id);
+    @Query(value = "delete from det_pedidos where cabventa_id = :cabventa_id", nativeQuery = true)
+    public void DeleteDetVenta(@Param("cabventa_id") String cabventa_id);
+
     @Transactional
-    @Query(value = "select * from det_pedidos where cabventa_id = :cabventa_id",nativeQuery = true)
-	public List<DetallePedidoEntity> SelectDetVenta(@Param("cabventa_id") String cabventa_id);
+    @Query(value = "select * from det_pedidos where cabventa_id = :cabventa_id", nativeQuery = true)
+    public List<DetallePedidoEntity> SelectDetVenta(@Param("cabventa_id") String cabventa_id);
+
     @Transactional
     @Modifying
-    @Query(value = "update det_pedidos set cantidad =:cantidad , precio=:precio,subtotal=:subtotal " 
-    +"where cabventa_id =:cabventa_id and producto_id =:producto_id",nativeQuery = true)
-	public void UpdateDetalleVenta(@Param("cabventa_id") String cabventa_id
-    ,@Param("producto_id") String producto_id,@Param("cantidad") int cantidad,
-    @Param("precio") double precio,@Param("subtotal") double subtotal
-
+    @Query(value = "update det_pedidos set cantidad =:cantidad , precio=:precio,subtotal=:subtotal, estado =:estado  "
+            + "where cabventa_id =:cabventa_id and producto_id =:producto_id", nativeQuery = true)
+    public void UpdateDetalleVenta(@Param("cabventa_id") String cabventa_id, @Param("producto_id") String producto_id,
+            @Param("cantidad") int cantidad,
+            @Param("precio") double precio, @Param("subtotal") double subtotal,
+            @Param("estado") Boolean estado
+    );
+    
+     @Transactional
+    @Modifying
+    @Query(value = "update det_pedidos set estado =:estado "
+            + "where cabventa_id =:cabventa_id ", nativeQuery = true)
+    public void UpdateAndDeleteDetalleVenta(@Param("cabventa_id") String cabventa_id, 
+    @Param("estado") Boolean estado
     );
 }

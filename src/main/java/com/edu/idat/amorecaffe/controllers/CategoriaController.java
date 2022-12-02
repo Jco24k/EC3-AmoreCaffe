@@ -2,7 +2,7 @@ package com.edu.idat.amorecaffe.controllers;
 
 
 import com.edu.idat.amorecaffe.entity.CategoriaEntity;
-import com.edu.idat.amorecaffe.services.categoria.CategoriaService;
+import com.edu.idat.amorecaffe.services.CategoriaService;
 
 import java.util.HashMap;
 import java.util.List;

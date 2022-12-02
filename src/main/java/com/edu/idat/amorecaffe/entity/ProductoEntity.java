@@ -31,7 +31,6 @@ import javax.validation.constraints.Positive;
  *
  * @author 51934
  */
-#Constructor
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
@@ -62,8 +61,10 @@ public class ProductoEntity implements Serializable {
     @JoinColumn(name = "id_categoria")
     private CategoriaEntity categoria;
 
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
+    
     @PrePersist
-    @PreUpdate
     public void prePersist() {
         id = UUID.randomUUID().toString();
         if ( this.slug == null ) {
@@ -71,5 +72,16 @@ public class ProductoEntity implements Serializable {
         }
         this.slug = this.slug.toLowerCase().replaceAll(" ", "_")
             .replaceAll("'","");
+        if (estado == null) {
+            estado = true;
+        }
     }
+
+    public ProductoEntity(String nombre, Double precio, int cantidad) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
+    
+    
 }

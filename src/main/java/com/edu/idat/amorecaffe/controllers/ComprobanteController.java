@@ -2,7 +2,7 @@ package com.edu.idat.amorecaffe.controllers;
 
 
 import com.edu.idat.amorecaffe.entity.ComprobanteEntity;
-import com.edu.idat.amorecaffe.services.comprobante.ComprobanteService;
+import com.edu.idat.amorecaffe.services.ComprobanteService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ComprobanteController {
 
     }
     @PatchMapping("/update/{id}")
-    public ResponseEntity<?> patch(@PathVariable String id, @RequestBody Map<Object, Object> comprobanteDto) throws ClassNotFoundException {
+    public ResponseEntity<?> patch(@PathVariable String id, @RequestBody ComprobanteEntity comprobanteDto) throws ClassNotFoundException {
         return new ResponseEntity<>(comprobanteService.update(comprobanteDto,id), HttpStatus.OK);
 
     }

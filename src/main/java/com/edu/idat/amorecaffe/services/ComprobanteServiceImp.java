@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.comprobante;
+package com.edu.idat.amorecaffe.services;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -12,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
-import com.edu.idat.amorecaffe.entity.CabeceraPedidoEntity;
 import com.edu.idat.amorecaffe.entity.ComprobanteEntity;
 import com.edu.idat.amorecaffe.repository.CabeceraPedidoRepository;
 import com.edu.idat.amorecaffe.repository.ComprobanteRepository;
@@ -70,19 +66,19 @@ public class ComprobanteServiceImp implements ComprobanteService {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
-        ComprobanteEntity Comprobante = this.findOne(id);
-        ComprobanteRepository.delete(Comprobante);
-        return;
+        ComprobanteEntity comprobante = this.findOne(id);
+        comprobante.setEstado(false);
+        ComprobanteRepository.save(comprobante);
     }
 
     @Override
-    public ComprobanteEntity update(Map<Object, Object> comprobanteEntityDto,String id) throws ClassNotFoundException{
+    public ComprobanteEntity update(ComprobanteEntity comprobanteEntityDto,String id) throws ClassNotFoundException{
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
         ComprobanteEntity comprob = this.findOne(id);
         BeanUtils.copyProperties(comprobanteEntityDto, comprob);
-        // verificar(comprob.getNroComprobante());
+        comprob.setId(id);
         return ComprobanteRepository.save(comprob);
     }
 

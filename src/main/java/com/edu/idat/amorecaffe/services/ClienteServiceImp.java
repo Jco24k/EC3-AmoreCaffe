@@ -2,21 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.cliente;
+package com.edu.idat.amorecaffe.services;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
-import com.edu.idat.amorecaffe.entity.CabeceraPedidoEntity;
 import com.edu.idat.amorecaffe.entity.ClienteEntity;
-import com.edu.idat.amorecaffe.entity.DistritoEntity;
 import com.edu.idat.amorecaffe.repository.CabeceraPedidoRepository;
 import com.edu.idat.amorecaffe.repository.ClienteRepository;
 import com.edu.idat.amorecaffe.repository.DistritoRepository;
@@ -75,14 +69,9 @@ public class ClienteServiceImp implements ClienteService {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
-        ClienteEntity Cliente = this.findOne(id);
-        List<CabeceraPedidoEntity> ListCabVenta = cabPedidoRepository.findByCliente(Cliente);
-
-        if (!ListCabVenta.isEmpty())
-            throw new Exception(String.format("Cliente with id '%s' cannot be deleted because it is in use.", id));
-
-        ClienteRepository.delete(Cliente);
-        return;
+        ClienteEntity cliente = this.findOne(id);
+        cliente.setEstado(false);
+        ClienteRepository.save(cliente);
     }
 
     @Override
@@ -92,6 +81,7 @@ public class ClienteServiceImp implements ClienteService {
         }
         ClienteEntity cli = this.findOne(id);
         BeanUtils.copyProperties(ClienteEntityDto, cli);
+        cli.setId(id);
         return ClienteRepository.save(cli);
     }
 

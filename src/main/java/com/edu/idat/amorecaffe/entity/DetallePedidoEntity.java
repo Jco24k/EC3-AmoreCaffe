@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.JoinTable;
 
 /**
  *
@@ -34,33 +35,49 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "det_pedidos")
-@Table(name = "det_pedidos",indexes = {
-    @Index(name = "cabventa", columnList = "cabventa_id",unique = false),
+@Table(name = "det_pedidos", indexes = {
+    @Index(name = "UK_muuladl8g68k5dqmtcc8m3iip", columnList = "cabventa_id", unique = false),
 
-@Index(name = "producto", columnList = "producto_id",unique = false)
+    @Index(name = "UK_kbgcopqtkb0rdl8dq2codpjuh", columnList = "producto_id", unique = false)
 })
 @Data
-
+ 
 public class DetallePedidoEntity implements Serializable {
+
     @EmbeddedId
     DetallePedidoId id;
 
     private static final long serialVersionUID = 1L;
-    @OneToOne()
-    @MapsId("id_cabventa")
-    private CabeceraPedidoEntity cabventa;
     @OneToOne
     @MapsId("id_producto")
     private ProductoEntity producto;
  
+    @OneToOne()
+    @MapsId("id_cabventa")
+    private CabeceraPedidoEntity cabventa;
+
     @Column(name = "precio", nullable = false, columnDefinition = "Decimal(10,2)")
     @Positive()
     private Double precio_producto;
     @Column(name = "cantidad", nullable = false)
     @Positive
     private int cantidad;
-    @Column(name = "subtotal", nullable = false,columnDefinition = "Decimal(10,2)")
+    @Column(name = "subtotal", nullable = false, columnDefinition = "Decimal(10,2)")
     private Double subtotal;
-     
+
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
+
+    @PrePersist
+    public void prePersist() {
+        if (estado == null) {
+            estado = true;
+        }
+    }
+
+    public DetallePedidoEntity(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    
 }
- 

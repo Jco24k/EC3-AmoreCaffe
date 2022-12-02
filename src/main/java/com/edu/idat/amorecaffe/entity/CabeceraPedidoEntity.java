@@ -56,7 +56,7 @@ public class CabeceraPedidoEntity implements Serializable {
     private Double total;
     @Column(name = "fecha", nullable = false)
     private Date fecha;
-    @Column(name = "estado", nullable = false,columnDefinition = "bit(1) default '1'")
+    @Column(name = "estado", nullable = false,columnDefinition = "bit(1) default 1")
     private Boolean estado;
     
 
@@ -64,6 +64,17 @@ public class CabeceraPedidoEntity implements Serializable {
     public void prePersist() {
         id = UUID.randomUUID().toString();
         fecha =  new Date();
-        if(estado == null) estado = true;
+        if(estado == null) {
+            estado = true;
+        }
     }
+
+    public CabeceraPedidoEntity(ClienteEntity cliente, EmpleadoEntity empleado, Double total, Date fecha) {
+        this.cliente = cliente;
+        this.empleado = empleado;
+        this.total = total;
+        this.fecha = fecha;
+    }
+    
+    
 }

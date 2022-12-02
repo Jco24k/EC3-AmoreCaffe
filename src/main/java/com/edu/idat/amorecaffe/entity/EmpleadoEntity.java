@@ -13,15 +13,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
- 
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "empleados")
 @Table(name = "empleados", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "dni", "id" }) })
+    @UniqueConstraint(columnNames = {"dni", "id"})})
 @Data
 public class EmpleadoEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     private String id;
@@ -48,17 +49,31 @@ public class EmpleadoEntity implements Serializable {
     private String direccion;
 
     @OneToOne
-	@JoinColumn(name="id_distrito")
-	private DistritoEntity distrito;
+    @JoinColumn(name = "id_distrito")
+    private DistritoEntity distrito;
 
     @OneToOne
-	@JoinColumn(name="id_cargo")
-	private CargoEntity cargo;
+    @JoinColumn(name = "id_cargo")
+    private CargoEntity cargo;
 
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
 
     @PrePersist
     public void prePersist() {
         id = UUID.randomUUID().toString();
+        if (estado == null) {
+            estado = true;
+        }
     }
 
-} 
+    public EmpleadoEntity(String nombre,String apellido, String dni, String telefono, String direccion) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+
+    
+}

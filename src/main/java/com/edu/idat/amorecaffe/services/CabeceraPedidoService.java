@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.pedidocabecera;
+package com.edu.idat.amorecaffe.services;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +24,5 @@ public interface CabeceraPedidoService {
     public CabeceraPedidoEntity update(CabeceraPedidoEntity cabeceraPedidoEntity,String id)throws ClassNotFoundException;
 
     public void delete(String id)throws ClassNotFoundException, IllegalArgumentException, Exception;
-    public void delete2(String id)throws ClassNotFoundException, IllegalArgumentException, Exception;
 
 }

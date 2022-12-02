@@ -23,6 +23,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+
 /**
  *
  * @author 51934
@@ -32,9 +33,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity(name = "clientes")
 @Table(name = "clientes", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "dni", "id" }) })
+    @UniqueConstraint(columnNames = {"dni", "id"})})
 @Data
 public class ClienteEntity implements Serializable {
+
     // Entidades de la tabla
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,15 +63,27 @@ public class ClienteEntity implements Serializable {
     @NotNull(message = "address must not be null")
     private String direccion;
     @OneToOne
-	@JoinColumn(name="id_distrito")
-	private DistritoEntity distrito;
+    @JoinColumn(name = "id_distrito")
+    private DistritoEntity distrito;
 
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
 
     @PrePersist
     public void prePersist() {
         id = UUID.randomUUID().toString();
+        if (estado == null) {
+            estado = true;
+        }
     }
+
+    public ClienteEntity(String nombre, String apellido, String dni, String telefono, String direccion) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+
+    
 }
-
-
-

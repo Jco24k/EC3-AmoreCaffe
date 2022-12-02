@@ -2,7 +2,7 @@ package com.edu.idat.amorecaffe.controllers;
 
 
 import com.edu.idat.amorecaffe.entity.ProductoEntity;
-import com.edu.idat.amorecaffe.services.producto.ProductoService;
+import com.edu.idat.amorecaffe.services.ProductoService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ProductoController {
 
     }
     @PatchMapping("/update/{id}")
-    public ResponseEntity<?> patch(@PathVariable String id, @RequestBody Map<Object, Object> productoDto) throws ClassNotFoundException {
+    public ResponseEntity<?> patch(@PathVariable String id, @RequestBody ProductoEntity productoDto) throws ClassNotFoundException {
         return new ResponseEntity<>(productoService.update(productoDto,id), HttpStatus.OK);
 
     }

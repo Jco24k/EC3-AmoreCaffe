@@ -2,24 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.pedidocabecera;
+package com.edu.idat.amorecaffe.services;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
 import com.edu.idat.amorecaffe.entity.CabeceraPedidoEntity;
-import com.edu.idat.amorecaffe.entity.ComprobanteEntity;
-import com.edu.idat.amorecaffe.entity.DetallePedidoEntity;
-import com.edu.idat.amorecaffe.entity.EmpleadoEntity;
-import com.edu.idat.amorecaffe.entity.CabeceraPedidoEntity;
-import com.edu.idat.amorecaffe.repository.CabeceraPedidoRepository;
 import com.edu.idat.amorecaffe.repository.ClienteRepository;
 import com.edu.idat.amorecaffe.repository.ComprobanteRepository;
 import com.edu.idat.amorecaffe.repository.DetallePedidoRepository;
@@ -84,29 +75,11 @@ public class CabeceraPedidoServiceImp implements CabeceraPedidoService {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
-        CabeceraPedidoEntity CabeceraPedido = this.findOne(id);
-        ComprobanteEntity comprbt = comprobanteRepository.findByVenta(CabeceraPedido);
-        List<DetallePedidoEntity> cabVenta = detPedidoRepository.findByCabventa(CabeceraPedido);
-
-        if (comprbt != null)
-            throw new Exception(
-                    String.format("CabeceraPedido with id '%s' cannot be deleted because it is in use.(comprobante)", id));
-        if ( !cabVenta.isEmpty())
-            throw new Exception(
-                    String.format("CabeceraPedido with id '%s' cannot be deleted because it is in use.(detalle_venta)", id));
-
-        CabeceraPedidoRepository.delete(CabeceraPedido);
-        return;
-    }
-
-    public void delete2(String id) throws ClassNotFoundException, IllegalArgumentException, Exception {
-        if (!uuidValidate.matcher(id).matches()) {
-            throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
-        }
         CabeceraPedidoEntity cabeceraPedido = this.findOne(id);
         cabeceraPedido.setEstado(false);
         CabeceraPedidoRepository.save(cabeceraPedido);
     }
+
 
     @Override
     public CabeceraPedidoEntity update(CabeceraPedidoEntity CabeceraPedidoEntityDto, String id)

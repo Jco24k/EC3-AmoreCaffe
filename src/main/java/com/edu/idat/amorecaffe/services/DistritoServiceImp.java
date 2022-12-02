@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.distrito;
+package com.edu.idat.amorecaffe.services;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -12,9 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-import com.edu.idat.amorecaffe.entity.ClienteEntity;
 import com.edu.idat.amorecaffe.entity.DistritoEntity;
-import com.edu.idat.amorecaffe.entity.EmpleadoEntity;
 import com.edu.idat.amorecaffe.repository.ClienteRepository;
 import com.edu.idat.amorecaffe.repository.DistritoRepository;
 import com.edu.idat.amorecaffe.repository.EmpleadoRepository;
@@ -72,14 +70,8 @@ public class DistritoServiceImp implements DistritoService {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
         DistritoEntity distrito = this.findOne(id);
-        List<EmpleadoEntity> ListEmpleado = empleadoRepository.findByDistrito(distrito);
-        List<ClienteEntity> ListCliente = clienteRepository.findByDistrito(distrito);
-
-        if(!ListEmpleado.isEmpty() || !ListCliente.isEmpty())
-            throw new Exception(String.format("Distrito with id '%s' cannot be deleted because it is in use.", id ));
-        
-            DistritoRepository.delete(distrito);
-        return;
+        distrito.setEstado(false);
+        DistritoRepository.save(distrito);
     } 
 
     @Override

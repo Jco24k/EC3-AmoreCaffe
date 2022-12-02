@@ -2,7 +2,7 @@ package com.edu.idat.amorecaffe.controllers;
 
 
 import com.edu.idat.amorecaffe.entity.DistritoEntity;
-import com.edu.idat.amorecaffe.services.distrito.DistritoService;
+import com.edu.idat.amorecaffe.services.DistritoService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

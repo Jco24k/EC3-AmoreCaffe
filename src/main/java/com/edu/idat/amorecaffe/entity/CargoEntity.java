@@ -34,6 +34,9 @@ public class CargoEntity implements Serializable {
     private String slug;
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
+    
+    @Column(name = "estado", nullable = false,columnDefinition = "bit(1) default 1")
+    private Boolean estado;
     //ANTES DE REGISTRO
     @PrePersist
     public void prePersist() {
@@ -46,6 +49,15 @@ public class CargoEntity implements Serializable {
         }
         this.slug = this.slug.toLowerCase().replaceAll(" ", "_")
             .replaceAll("'","");
+        if(estado == null) {
+            estado = true;
+        }
     }
+
+
+    public CargoEntity(String nombre) {
+        this.nombre = nombre;
+    }
+    
     
 }

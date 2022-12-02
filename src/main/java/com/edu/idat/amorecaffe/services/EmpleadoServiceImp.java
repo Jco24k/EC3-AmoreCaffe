@@ -2,19 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.edu.idat.amorecaffe.services.empleado;
+package com.edu.idat.amorecaffe.services;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
-import com.edu.idat.amorecaffe.entity.CabeceraPedidoEntity;
 import com.edu.idat.amorecaffe.entity.EmpleadoEntity;
 import com.edu.idat.amorecaffe.repository.CabeceraPedidoRepository;
 import com.edu.idat.amorecaffe.repository.CargoRepository;
@@ -77,13 +72,9 @@ public class EmpleadoServiceImp implements EmpleadoService {
         if (!uuidValidate.matcher(id).matches()) {
             throw new IllegalArgumentException(String.format("id '%s' must be a uuid", id));
         }
-        EmpleadoEntity Empleado = this.findOne(id);
-        List<CabeceraPedidoEntity> ListCabVenta = cabPedidoRepository.findByEmpleado(Empleado);
-        if (!ListCabVenta.isEmpty())
-            throw new Exception(String.format("Empleado with id '%s' cannot be deleted because it is in use.", id));
-
-        empleadoRepository.delete(Empleado);
-        return;
+        EmpleadoEntity empleado = this.findOne(id);
+        empleado.setEstado(false);
+        empleadoRepository.save(empleado);
     }
 
     @Override
@@ -93,8 +84,7 @@ public class EmpleadoServiceImp implements EmpleadoService {
         }
         EmpleadoEntity emp = this.findOne(id);
         BeanUtils.copyProperties(EmpleadoEntityDto, emp);
-
-        // verificar(emp.getDni());
+        emp.setId(id);
         return empleadoRepository.save(emp);
     }
 

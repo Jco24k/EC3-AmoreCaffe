@@ -21,27 +21,39 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name = "categorias")
 @Table(name = "categorias", uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "nombre","slug", "id" }) })
+    @UniqueConstraint(columnNames = {"nombre", "slug", "id"})})
 @Data
 public class CategoriaEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     private String id;
-    @Column(name = "nombre", nullable = false,unique = true)
+    @Column(name = "nombre", nullable = false, unique = true)
     @NotNull(message = "name must not be null")
     @Size(min = 1)
     private String nombre;
-    @Column(name = "slug", nullable = false,unique = true)
+    @Column(name = "slug", nullable = false, unique = true)
     private String slug;
+
+    @Column(name = "estado", nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean estado;
+
     @PrePersist
-    @PreUpdate
     public void prePersist() {
         id = UUID.randomUUID().toString();
-        if ( this.slug == null ) {
+        if (this.slug == null) {
             this.slug = this.nombre;
         }
         this.slug = this.slug.toLowerCase().replaceAll(" ", "_")
-            .replaceAll("'","");
+                .replaceAll("'", "");
+
+        if (estado == null) {
+            estado = true;
+        }
     }
-    
+
+    public CategoriaEntity(String nombre) {
+        this.nombre = nombre;
+    }
+
 }
